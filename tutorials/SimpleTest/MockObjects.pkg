@@ -107,7 +107,7 @@ class MyTestCase extends UnitTestCase {
                 legal.
                 As with stubs we can replace the default null return values...
 <programlisting role="php">
-$connection-&gt;setReturnValue('query', 37);
+$connection-&gt;returns('query', 37);
 </programlisting>
                 Now every time we call
                 <span class="new_code">$connection-&gt;query()</span> we get
@@ -147,9 +147,9 @@ class IteratorTest extends UnitTestCase() {
     
     function testASequence() {
         $iterator = &amp;new MockIterator($this);
-        $iterator-&gt;setReturnValue('next', false);
-        $iterator-&gt;setReturnValueAt(0, 'next', 'First string');
-        $iterator-&gt;setReturnValueAt(1, 'next', 'Second string');
+        $iterator-&gt;returns('next', false);
+        $iterator-&gt;returnsByValueAt(0, 'next', 'First string');
+        $iterator-&gt;returnsByValueAt(1, 'next', 'Second string');
         ...
     }
 }
@@ -184,9 +184,9 @@ class Configuration {
                 Luckily the mocks have a filter system...
 <programlisting role="php">
 $config = &amp;new MockConfiguration($this);
-$config-&gt;setReturnValue('getValue', 'primary', array('db_host'));
-$config-&gt;setReturnValue('getValue', 'admin', array('db_user'));
-$config-&gt;setReturnValue('getValue', 'secret', array('db_password'));
+$config-&gt;returns('getValue', 'primary', array('db_host'));
+$config-&gt;returns('getValue', 'admin', array('db_user'));
+$config-&gt;returns('getValue', 'secret', array('db_password'));
 </programlisting>
                 The extra parameter is a list of arguments to attempt
                 to match.
@@ -224,7 +224,7 @@ class Vector {
 <programlisting role="php">
 $thing = new Thing();
 $vector = &amp;new MockVector($this);
-$vector-&gt;setReturnReference('get', $thing, array(12));
+$vector-&gt;returnsByReference('get', $thing, array(12));
 </programlisting>
                 With this arrangement you know that every time
                 <span class="new_code">$vector-&gt;get(12)</span> is
@@ -333,7 +333,7 @@ class LoggingSessionPoolTest extends UnitTestCase {
     function testFindSessionLogging() {
         $session = &amp;new MockSession($this);
         $pool = &amp;new MockSessionPool($this);
-        $pool-&gt;setReturnReference('findSession', $session);
+        $pool-&gt;returnsByReference('findSession', $session);
         $pool-&gt;expectOnce('findSession', array('abc'));
         
         $log = &amp;new MockLog($this);
